@@ -19,12 +19,15 @@ sudo systemctl start postgresql
 
 ajustar no arquivo: 
 /etc/zabbix/apache.conf
+# php_value date.timezone Europe/Riga
+ php_value date.timezone America/Sao_Paulo
+
 
 ajuste apache port:
 sed s'/80/8080/' -i /etc/apache2/ports.conf
 
 # php_value date.timezone Europe/Riga
- php_value date.timezone America/Sao_Pauo
+ php_value date.timezone America/Sao_Paulo
 
 systemctl restart zabbix-server zabbix-agent apache2
 systemctl enable zabbix-server zabbix-agent apache2
