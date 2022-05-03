@@ -1,7 +1,7 @@
 version: '3.1'
 
 networks:
-  host:
+  network-zabbix:
     driver: bridge
 
 services:
@@ -9,7 +9,7 @@ services:
     container_name: mysql
     image: mysql:5.7
     networks:
-      - host 
+      - network-zabbix
     ports:
       - '3306:3306'
     volumes:
@@ -24,7 +24,7 @@ services:
     container_name: zabbix-server
     image: zabbix/zabbix-server-mysql:ubuntu-5.0.1
     networks:
-      - host
+      - network-zabbix
     links:
       - mysql
     restart: always
@@ -44,7 +44,7 @@ services:
     container_name: zabbix-frontend
     image: zabbix/zabbix-web-apache-mysql:ubuntu-5.0.1
     networks:
-      - host
+      - network-zabbix
     links:
       - mysql
     restart: always
@@ -64,7 +64,7 @@ services:
     image: zabbix/zabbix-agent2:alpine-5.0.1
     user: root
     networks:
-      - host
+      - network-zabbix
     links:
       - zabbix-server
     restart: always
