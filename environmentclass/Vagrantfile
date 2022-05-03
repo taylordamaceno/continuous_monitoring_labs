@@ -9,7 +9,7 @@ Vagrant.configure("2") do |config|
    config.vm.network "forwarded_port", guest: 3306, host: 3306, autocorrect: true
    config.vm.network "forwarded_port", guest: 5432, host: 5432, autocorrect: true
    config.vm.provision "file", source: "bashrc", destination: "~/vm_conf_files/bashrc"
-   config.vm.provision :shell, path: "bootstrap.sh"
+   config.vm.provision :shell, path: "setup.sh"
    config.vm.provider "virtualbox" do |vb|
       vb.gui = false
       vb.name = "labmonitoring"

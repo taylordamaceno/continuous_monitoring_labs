@@ -8,7 +8,7 @@ Instalando vagrant  [ https://nandovieira.com.br/usando-o-vagrant-como-ambiente-
 
 Entre no diretorio 
 
-cd continuous_monitoring_labs
+cd continuous_monitoring_labs/environmentclass
 
 vagrant up
 
