@@ -1,0 +1,18 @@
+PESSOAL, nosso lab hoje consiste em subir um cluster local de k8s. 
+instalar metrics server kubernetes
+Provisionarmos o prometheus server
+provisionarmos o grafana server
+configurar o prometheus server para exportar métricas do nosso cluster k8s no grafana
+configurarmos um ingress nginx e seus virtuais hosts para conseguirmos expor esse recurso e acessarmos via browser. 
+
+O como fazer, podemos subir o https://kind.sigs.k8s.io/ direto no SO,  Linux  Macos, ou em uma instancia na nuvem.  também existe a opção de subir no windows, mas quem optar por isso terá que seguir a doc, não testado. 
+
+ou subir o vagrant com ubuntu 20.04 e configurarmos la... 
+
+
+Passo 1, entrar no diretório: ~/continuous_monitoring_labs/environmentclass/Exercicio2
+Passo 2: se for usar o SO ignore esse passo, execute: vagrant up
+passo 3: acesse o servidor: vagrant ssh 
+passo 4: baixa o script de setup: wget url/setup.sh e de permissão chmod +xx setup.sh
+passo 5: execute o script ./setup.sh 
+
