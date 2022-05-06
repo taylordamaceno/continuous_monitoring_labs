@@ -1,6 +1,5 @@
 #!/bin/bash
 #install basic packages
-sudo echo "vagrant ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 sudo apt-get install net-tools -y
 sudo apt-get install curl -y
 sudo apt-get install telnet -y 
@@ -38,7 +37,9 @@ sudo service docker start
 sudo usermod -aG docker $USER
 newgrp docker
 # helm chart
-curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
-chmod 700 get_helm.sh
-sudo ./get_helm.sh
+sudo curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+sudo helm repo add stable https://charts.helm.sh/stable
+sudo helm repo update
+
+
 
