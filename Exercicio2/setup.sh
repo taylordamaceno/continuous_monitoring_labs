@@ -1,7 +1,5 @@
 #!/bin/bash
 #install basic packages
-sudo gpasswd -a vagrant docker 
-sudo gpasswd -a vagrant root 
 sudo echo "vagrant ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 sudo apt-get install net-tools -y
 sudo apt-get install curl -y
@@ -34,6 +32,8 @@ sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 
 
 # START DOCKER
+sudo gpasswd -a vagrant docker
+sudo gpasswd -a vagrant root
 sudo service docker start 
 sudo usermod -aG docker $USER
 newgrp docker
