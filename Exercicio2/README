@@ -33,7 +33,8 @@ Passo 2: se for usar o SO ignore esse passo, execute
 passo 3: acesse o servidor: vagrant ssh 
 
 passo 4: baixa o script de setup: 
-wget https://raw.githubusercontent.com/taylordamaceno/continuous_monitoring_labs/main/Exercicio2/setup.sh e de permissão
+wget https://raw.githubusercontent.com/taylordamaceno/continuous_monitoring_labs/main/Exercicio2/setup.sh 
+e de permissão:
  chmod +x setup.sh
 passo 5: execute o script: 
 ./setup.sh 
