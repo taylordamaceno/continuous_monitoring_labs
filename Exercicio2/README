@@ -1,64 +1,27 @@
-PESSOAL, nosso lab hoje consiste em:
-Instalar e configurar o kubernetes
+Configurando prometheus  e integrando ele com grafana  usando docker e vagrant:
 
-instalar metrics server kubernetes
+git clone https://github.com/taylordamaceno/continuous_monitoring_labs.git
 
-instalar e configurar o helm chart
+cd ~/continuous_monitoring_labs/Exercicio2
 
-instalando e configurando o prometheus operator
+baixando arquivo de prometheus:
 
-instalando e configurando o grafana server
+wget urlgit/prometheus.yml
 
-configurar o prometheus server para exportar métricas do nosso cluster k8s no grafana
+Subindo prometheus:
 
-Acesso e overview das interfaces gráficas
+docker run -d --name prometheus -p 9090:9090 -v $PWD/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus --config.file=/etc/prometheus/prometheus.yml
 
-
-HANDS ON 
-
-O como fazer, podemos subir o https://kind.sigs.k8s.io/ direto no SO,  Linux  Macos, ou em uma instancia na nuvem.  também existe a opção de subir no windows, mas quem optar por isso terá que seguir a doc, não testado. 
-
-ou subir o vagrant com ubuntu 20.04 e configurarmos la... 
+Acessando pelo browser e explorando o prometheus:  http://localhost:9000/
 
 
-Passo 1, entrar no diretório:
+você pode checar a documentação sob query do prometheus:
+https://prometheus.io/docs/introduction/first_steps/#using-the-expression-browser
 
- ~/continuous_monitoring_labs/environmentclass/Exercicio2
+------------------------------------
+Subindo grafana:
 
-Passo 2: se for usar o SO ignore esse passo, execute
- vagrant up  
- ( caso ocorra erro relacioando ao openssl 3.0 
- execute:   ssh-add -D; vagrant up
+docker run -d --name grafana -p 3000:3000 grafana/grafana
 
-passo 3: acesse o servidor: vagrant ssh 
+Abra o grafana na porta 3000 
 
-passo 4: baixa o script de setup: 
-wget https://raw.githubusercontent.com/taylordamaceno/continuous_monitoring_labs/main/Exercicio2/setup.sh 
-e de permissão:
- chmod +x setup.sh
-passo 5: execute o script: 
-./setup.sh 
-
-passo 6:  criando o cluster k8s com o kind: 
- ./kind create cluster --name aulaprometheus
-
- Criando namespace: 
-
- kubectl create ns monitoring 
-
- Preparando helm:
- helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
- helm repo update
-
- Instalando a stack do prometheus com helm 
- helm upgrade --namespace monitoring --install kube-stack-prometheus prometheus-community/kube-prometheus-stack --set prometheus-node-exporter.hostRootFsMount.enabled=false
-
- Configurando/acessando a interface gráfica do prometheus:
-
- kubectl port-forward --namespace monitoring svc/kube-stack-prometheus-kube-prometheus 9090:9090
-
- acesso a interface via browser: http://localhost:9090
-
- Vá na aba status, target, e veja os endpoints do self discovery do prometheus
-
- Parte 2: 
