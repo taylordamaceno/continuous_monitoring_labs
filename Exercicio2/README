@@ -11,7 +11,7 @@ vagrant ssh
 # preparando ambiente
 wget https://raw.githubusercontent.com/taylordamaceno/continuous_monitoring_labs/main/Exercicio2/setup2.sh
 chmod +x setup2.sh
-bash setup.sh
+bash setup2.sh
 
 #dentro da instancia
 baixando arquivo de prometheus:
