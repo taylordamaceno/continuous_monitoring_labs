@@ -55,16 +55,14 @@ Entrar no diretório:
   criando o cluster k8s com o kind: 
  ./kind create cluster --name testek8s
 
- instalando e configurando helm:
-sudo curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
-sudo helm repo add stable https://charts.helm.sh/stable
-sudo  helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-sudo  helm repo update
-Criando namespace: 
+#helm chart
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
+# create namespace 
+kubectl create ns monitoring
+#install stack
+helm upgrade --namespace monitoring --install kube-stack-prometheus prometheus-community/kube-prometheus-stack --set prometheus-node-exporter.hostRootFsMount.enabled=false
 
- kubectl create ns monitoring 
- Instalando a stack do prometheus com helm: 
- helm upgrade --namespace monitoring --install kube-stack-prometheus prometheus-community/kube-prometheus-stack --set prometheus-node-exporter.hostRootFsMount.enabled=false
 
  Configurando/acessando a interface gráfica do prometheus:
 
@@ -80,9 +78,14 @@ mais detalhes sob o promQL
 
 https://prometheus.io/docs/introduction/first_steps/#using-the-expression-browser
 
+# Vá na aba status, target, e veja os endpoints do self discovery do prometheus
+# Grafana pegando os acessos
+ kubectl get secret --namespace monitoring kube-stack-prometheus-grafana -o jsonpath='{.data.admin-user}' | base64 -d
+ kubectl get secret --namespace monitoring kube-stack-prometheus-grafana -o jsonpath='{.data.admin-password}' | base64 -d
 
+# Acessando o Grafana 
+ kubectl port-forward --namespace monitoring svc/kube-stack-prometheus-grafana 8080:80
+ 
 
-
- Vá na aba status, target, e veja os endpoints do self discovery do prometheus
-
- Parte 2: 
+# Matar o Cluster 
+kind delete cluster --name AulaPrometheus
