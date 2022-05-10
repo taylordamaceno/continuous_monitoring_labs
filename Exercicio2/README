@@ -22,7 +22,7 @@ Subindo prometheus:
 
 docker run -d --name prometheus -p 9090:9090 -v $PWD/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus --config.file=/etc/prometheus/prometheus.yml
 
-Acessando pelo browser e explorando o prometheus:  http://localhost:9000/
+Acessando pelo browser e explorando o prometheus:  http://localhost:9090/
 
 
 você pode checar a documentação sob query do prometheus:
