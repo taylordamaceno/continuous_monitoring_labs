@@ -1,5 +1,5 @@
 #!/bin/bash
-# install docker
+# install docker and stree-ng
 sudo apt update -y 
 sudo apt install apt-transport-https ca-certificates curl software-properties-common -y
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add - 
@@ -8,4 +8,4 @@ apt-cache policy docker-ce -y
 sudo apt install docker-ce -y
 sudo systemctl status docker
 sudo usermod -aG docker ${USER}
-
+sudo apt install stress-ng -y
