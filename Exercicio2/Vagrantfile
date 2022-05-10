@@ -14,5 +14,5 @@ Vagrant.configure("2") do |config|
   config.vm.network "forwarded_port", guest: 10259, host: 10259, autocorrect: true
   config.vm.network "forwarded_port", guest: 10257, host: 10257, autocorrect: true
   config.vm.usable_port_range =  30000..32767
-  config.vm.provision "shell", path: "setup.sh"
+  config.vm.provision "shell", path: "setup2.sh"
 end
