@@ -1,9 +1,7 @@
 PESSOAL, nosso lab hoje consiste em:
-Instalar e configurar o kubernetes
+Instalando e configurar o kind
 
-instalar metrics server kubernetes
-
-instalar e configurar o helm chart
+instalando e configurando o helm chart
 
 instalando e configurando o prometheus operator
 
@@ -14,72 +12,57 @@ configurar o prometheus server para exportar métricas do nosso cluster k8s no g
 Acesso e overview das interfaces gráficas
 
 
-HANDS ON 
+#HANDS ON 
 
-O como fazer,  subir o https://kind.sigs.k8s.io/ direto no SO,  Linux  Macos, ou em uma instancia na nuvem.  também existe a opção de subir no windows, mas quem optar por isso terá que seguir a doc, não testado. 
+#O como fazer,  subir o https://kind.sigs.k8s.io/ direto no SO,  Linux  Macos, ou em uma instancia na nuvem.
+#No windows dica: https://community.chocolatey.org/packages/kind#install
 
-prereqs: 
+
 # install docker
-curl -fsSL https://get.docker.com -o get-docker.sh
-sudo sh get-docker.sh
-sudo usermod -aG docker vagrant
-
 # installl docker compose
-sudo curl -L "https://github.com/docker/compose/releases/download/v2.4.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-sudo chmod +x /usr/local/bin/docker-compose
-
-
-# install  k8s
-curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.12.0/kind-linux-amd64
-chmod +x ./kind
-
-#install go
-sudo apt install go
+# install golang
+# install  k8s(kind)
 # install  kubectl
-sudo curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 
-Opcional quem tiver usando ubuntu 20.04
-baixa o script de setup: 
+
+#Ubuntu 20.04 pode usar o script
+#baixa o script de setup: 
 wget https://raw.githubusercontent.com/taylordamaceno/continuous_monitoring_labs/main/Exercicio2/setup.sh 
-e de permissão:
+#e de permissão:
  chmod +x setup.sh
- execute o script: 
+ #execute o script: 
 ./setup.sh 
 
 
 
-Entrar no diretório:
+#Entrar no diretório:
 
  ~/continuous_monitoring_labs/environmentclass/Exercicio2
-  criando o cluster k8s com o kind: 
+  #criando o cluster k8s com o kind: 
  ./kind create cluster --name testek8s
 
-#helm chart
-helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-helm repo update
-# create namespace 
-kubectl create ns monitoring
-#install stack
-helm upgrade --namespace monitoring --install kube-stack-prometheus prometheus-community/kube-prometheus-stack --set prometheus-node-exporter.hostRootFsMount.enabled=false
-
-
- Configurando/acessando a interface gráfica do prometheus:
-
+ #instalando e configurando helm:
+sudo curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+sudo helm repo add stable https://charts.helm.sh/stable
+sudo  helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+sudo  helm repo update
+#Criando namespace: 
+ kubectl create ns monitoring 
+ #Instalando a stack do prometheus com helm: 
+ helm upgrade --namespace monitoring --install kube-stack-prometheus prometheus-community/kube-prometheus-stack --set prometheus-node-exporter.hostRootFsMount.enabled=false
+ #Configurando/acessando a interface gráfica do prometheus:
  kubectl port-forward --namespace monitoring svc/kube-stack-prometheus-kube-prometheus 9090:9090
-
- acesso a interface via browser:
+ #acesso a interface via browser:
  http://localhost:9090
-
-
-exemplo: 
+#exemplo: 
 container_cpu_usage_seconds_total
 mais detalhes sob o promQL
-
 https://prometheus.io/docs/introduction/first_steps/#using-the-expression-browser
+---------
+#Vá na aba status, target, e veja os endpoints do self discovery do prometheus
 
-# Vá na aba status, target, e veja os endpoints do self discovery do prometheus
-# Grafana pegando os acessos
+
+ #credenciais grafana
  kubectl get secret --namespace monitoring kube-stack-prometheus-grafana -o jsonpath='{.data.admin-user}' | base64 -d
  kubectl get secret --namespace monitoring kube-stack-prometheus-grafana -o jsonpath='{.data.admin-password}' | base64 -d
 
@@ -87,5 +70,5 @@ https://prometheus.io/docs/introduction/first_steps/#using-the-expression-browse
  kubectl port-forward --namespace monitoring svc/kube-stack-prometheus-grafana 8080:80
  
 
-# Matar o Cluster 
-kind delete cluster --name AulaPrometheus
+# destruindo o Cluster 
+kind delete cluster --name testek8s 
