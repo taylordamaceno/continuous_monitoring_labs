@@ -27,7 +27,7 @@ Acesso e overview das interfaces gráficas
 
 #Ubuntu 20.04 pode usar o script
 #baixa o script de setup: 
-wget https://raw.githubusercontent.com/taylordamaceno/continuous_monitoring_labs/main/Exercicio2/setup.sh 
+wget https://raw.githubusercontent.com/taylordamaceno/continuous_monitoring_labs/main/Exercicio2/k8s/setup.sh 
 #e de permissão:
  chmod +x setup.sh
  #execute o script: 
@@ -37,7 +37,7 @@ wget https://raw.githubusercontent.com/taylordamaceno/continuous_monitoring_labs
 
 #Entrar no diretório:
 
- ~/continuous_monitoring_labs/environmentclass/Exercicio2
+ ~/continuous_monitoring_labs/Exercicio3
   #criando o cluster k8s com o kind: 
  ./kind create cluster --name testek8s
 
