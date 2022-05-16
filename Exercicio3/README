@@ -40,6 +40,7 @@ wget https://raw.githubusercontent.com/taylordamaceno/continuous_monitoring_labs
  ~/continuous_monitoring_labs/Exercicio3
   #criando o cluster k8s com o kind: 
  ./kind create cluster --name testek8s
+# kubectl config use-context kind-testek8s
 
  #instalando e configurando helm:
 sudo curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
