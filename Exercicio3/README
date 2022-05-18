@@ -50,11 +50,9 @@ sudo  helm repo update
 #Criando namespace: 
  kubectl create ns monitoring 
  #Instalando a stack do prometheus com helm: 
-# helm upgrade --namespace monitoring --install kube-stack-prometheus prometheus-community/kube-prometheus-stack --set prometheus-node-exporter.hostRootFsMount.enabled=false
- helm install prometheus prometheus-community/kube-prometheus-stack --namespace monitoring
+ helm upgrade --namespace monitoring --install kube-stack-prometheus prometheus-community/kube-prometheus-stack --set prometheus-node-exporter.hostRootFsMount.enabled=false
  #Configurando/acessando a interface gráfica do prometheus:
-# kubectl port-forward --namespace monitoring svc/kube-stack-prometheus-kube-prometheus 9090:9090
- kubectl port-forward --namespace monitoring svc/prometheus-kube-prometheus-prometheus 9090
+ kubectl port-forward --namespace monitoring svc/kube-stack-prometheus-kube-prometheus 9090:9090
  #acesso a interface via browser:
  http://localhost:9090
 #exemplo: 
@@ -66,14 +64,44 @@ https://prometheus.io/docs/introduction/first_steps/#using-the-expression-browse
 
 
  #credenciais grafana
-# kubectl get secret --namespace monitoring kube-stack-prometheus-grafana -o jsonpath='{.data.admin-user}' | base64 -d
-# kubectl get secret --namespace monitoring kube-stack-prometheus-grafana -o jsonpath='{.data.admin-password}' | base64 -d
-kubectl get secret -n monitoring prometheus-grafana -ona -o jsonpath='{.data.admin-password}' | base64 -d
+ kubectl get secret --namespace monitoring kube-stack-prometheus-grafana -o jsonpath='{.data.admin-user}' | base64 -d
+ kubectl get secret --namespace monitoring kube-stack-prometheus-grafana -o jsonpath='{.data.admin-password}' | base64 -d
 prom-operator
  Acessando o Grafana 
-# kubectl port-forward --namespace monitoring svc/kube-stack-prometheus-grafana 8080:80
  kubectl port-forward --namespace monitoring svc/prometheus-grafana 8080:80
  
 
 # destruindo o Cluster 
 kind delete cluster --name testek8s 
+-----------------------------
+
+#Subindo cluster kind com ingress
+
+Start by creating a kind.config
+
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+  - role: control-plane
+    kubeadmConfigPatches:
+      - |
+        kind: InitConfiguration
+        nodeRegistration:
+          kubeletExtraArgs:
+            node-labels: "ingress-ready=true"        
+    extraPortMappings:
+      - containerPort: 80
+        hostPort: 80
+        protocol: TCP
+      - containerPort: 443
+        hostPort: 443
+        protocol: TCP
+
+
+
+kind create cluster --config kind.config
+kubectl apply --filename https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/kind/deploy.yaml
+kubectl wait --namespace ingress-nginx \
+  --for=condition=ready pod \
+  --selector=app.kubernetes.io/component=controller \
+  --timeout=90s
