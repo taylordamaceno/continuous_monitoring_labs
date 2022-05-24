@@ -52,7 +52,7 @@ sudo  helm repo update
  #Instalando a stack do prometheus com helm: 
  sudo helm upgrade --namespace monitoring --install kube-stack-prometheus prometheus-community/kube-prometheus-stack --set prometheus-node-exporter.hostRootFsMount.enabled=false
  #Configurando/acessando a interface gráfica do prometheus:
- kubectl port-forward --namespace monitoring svc/kube-stack-prometheus-kube-prometheus 9090:9090
+ kubectl port-forward --namespace monitoring svc/kube-stack-prometheus-kube-prometheus 9090:9090 --address localhost,0.0.0.0
  #acesso a interface via browser:
  http://localhost:9090
 #exemplo: 
@@ -68,7 +68,7 @@ https://prometheus.io/docs/introduction/first_steps/#using-the-expression-browse
  kubectl get secret --namespace monitoring kube-stack-prometheus-grafana -o jsonpath='{.data.admin-password}' | base64 -d
 prom-operator
  Acessando o Grafana 
- kubectl port-forward --namespace monitoring svc/prometheus-grafana 8080:80
+ kubectl port-forward --namespace monitoring svc/prometheus-grafana 8080:80 localhost,0.0.0.0
  
 
 # destruindo o Cluster 
