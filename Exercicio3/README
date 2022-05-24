@@ -50,7 +50,7 @@ sudo  helm repo update
 #Criando namespace: 
  kubectl create ns monitoring 
  #Instalando a stack do prometheus com helm: 
- helm upgrade --namespace monitoring --install kube-stack-prometheus prometheus-community/kube-prometheus-stack --set prometheus-node-exporter.hostRootFsMount.enabled=false
+ sudo helm upgrade --namespace monitoring --install kube-stack-prometheus prometheus-community/kube-prometheus-stack --set prometheus-node-exporter.hostRootFsMount.enabled=false
  #Configurando/acessando a interface gráfica do prometheus:
  kubectl port-forward --namespace monitoring svc/kube-stack-prometheus-kube-prometheus 9090:9090
  #acesso a interface via browser:
