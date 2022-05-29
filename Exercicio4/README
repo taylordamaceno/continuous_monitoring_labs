@@ -1,0 +1,38 @@
+#ATENCAO
+Se for usar vagrant e kind
+No diretorio
+vagrant up 
+acessando a instancia
+vagrant ssh
+# 
+#Ubuntu 20.04 pode usar o script
+#baixa o script de setup: 
+wget https://raw.githubusercontent.com/taylordamaceno/continuous_monitoring_labs/main/Exercicio2/k8s/setup.sh 
+#e de permissão:
+ chmod +x setup.sh
+ #execute o script: 
+./setup.sh 
+
+#clone o repo, entre no dir Exercicio4
+git clone https://github.com/taylordamaceno/continuous_monitoring_labs.git
+#suba o cluster com kind
+# entre no dir 
+cd Exercicio4
+# crie o cluster com o comando abaixo
+kind create cluster --config kind.config
+kubectl apply --filename https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/kind/deploy.yaml
+kubectl wait --namespace ingress-nginx \
+  --for=condition=ready pod \
+  --selector=app.kubernetes.io/component=controller \
+  --timeout=90s
+
+Os proximos passos siga as instrucoes abaixo:
+
+
+# acesse seu cluster de kubernetes
+#Clone o repo
+https://github.com/taylordamaceno/continuous_monitoring_labs.git
+#entra no diretorio
+cd Exercicio4
+#crie a estrutura 
+kubectl create -f .
