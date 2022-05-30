@@ -3,6 +3,8 @@ sudo mkdir -p /docker/elastic/data;
 sudo chmod -R g+rwx /docker/elastic;
 sudo chown -R 1000:1000 /docker/elastic;
 sudo sysctl -w vm.max_map_count=262144;
+sudo export VERSAO=7.13.1;
+export VERSAO;
 # Subindo Docker
 
 docker run -d --name elastic \
@@ -27,6 +29,6 @@ docker run -d --name kibana \
 #Subindo logstash
 docker run -d --name logstash \
  --restart=always \
- -e   "XPACK.MONITORING.ELASTICSEARCH.HOSTS=http://IP_SERVIDOR_ELASTIC:9200" \
+ -e   "XPACK.MONITORING.ELASTICSEARCH.HOSTS=http://localhost:9200" \
  docker.elastic.co/logstash/logstash:$VERSAO
 
