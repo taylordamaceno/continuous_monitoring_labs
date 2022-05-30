@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: es-cluster
-  namespace: logs
 spec:
   serviceName: elasticsearch
   replicas: 3
@@ -16,7 +15,7 @@ spec:
     spec:
       containers:
       - name: elasticsearch
-        image: docker.elastic.co/elasticsearch/elasticsearch:7.5.0
+        image: elasticsearch:latest
         resources:
             limits:
               cpu: 1000m
@@ -47,7 +46,7 @@ spec:
             value: "-Xms512m -Xmx512m"
       initContainers:
       - name: fix-permissions
-        image: busybox:1.31
+        image: busybox:latest
         command: ["sh", "-c", "chown -R 1000:1000 /usr/share/elasticsearch/data"]
         securityContext:
           privileged: true
