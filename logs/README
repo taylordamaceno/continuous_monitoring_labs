@@ -4,19 +4,19 @@ sudo chmod -R g+rwx /docker/elastic;
 sudo chown -R 1000:1000 /docker/elastic;
 sudo sysctl -w vm.max_map_count=262144;
 sudo export VERSAO=7.13.1;
-export VERSAO;
+sudo export VERSAO;
 # Subindo Docker
 
-docker run -d --name elastic \
+sudo docker run -d --name elastic \
  -p 9200:9200 -p 9300:9300 \
  --restart=always \
  -e "http.host=0.0.0.0" \
  -e "discovery.type=single-node" \
  -v /docker/elastic/data:/usr/share/elasticsearch/data \
- docker.elastic.co/elasticsearch/elasticsearch:$VERSAO
+sudo  docker.elastic.co/elasticsearch/elasticsearch:$VERSAO
 
 # Subindo kibana
-docker run -d --name kibana \
+sudo docker run -d --name kibana \
  -p 5601:5601 \
  --restart=always \
  -e "ELASTICSEARCH_HOSTS=http://IP_SERVIDOR_ELASTIC:9200" \
@@ -27,7 +27,7 @@ docker run -d --name kibana \
  -e XPACK_MONITORING_UI_CONTAINER_ELASTICSEARCH_ENABLED \
  docker.elastic.co/kibana/kibana:$VERSAO
 #Subindo logstash
-docker run -d --name logstash \
+sudo docker run -d --name logstash \
  --restart=always \
  -e   "XPACK.MONITORING.ELASTICSEARCH.HOSTS=http://localhost:9200" \
  docker.elastic.co/logstash/logstash:$VERSAO
