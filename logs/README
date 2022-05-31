@@ -33,6 +33,7 @@ sudo docker run -d --name kibana \
 #Subindo logstash
 sudo docker run -d --name logstash \
  --restart=always \
+ -v $PWD/logstash-sample.conf/usr/share/logstash/config/logstash-sample.conf
  --net=aula \
  -e   "XPACK.MONITORING.ELASTICSEARCH.HOSTS=http://elastic:9200" \
  docker.elastic.co/logstash/logstash:$VERSAO
