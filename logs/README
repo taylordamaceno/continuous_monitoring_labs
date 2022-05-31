@@ -5,6 +5,8 @@ sudo chown -R 1000:1000 /$HOME/docker/elastic;
 sudo sysctl -w vm.max_map_count=262144;
 VERSAO=7.13.1;
 export VERSAO;
+#criando rede
+sudo docker network create aula || true
 # Subindo Docker
 
 sudo docker run -d --name elastic \
@@ -12,6 +14,7 @@ sudo docker run -d --name elastic \
  --restart=always \
  -e "http.host=0.0.0.0" \
  -e "discovery.type=single-node" \
+ --net=aula \
  -v $HOME/docker/elastic/data:/usr/share/elasticsearch/data \
  docker.elastic.co/elasticsearch/elasticsearch:$VERSAO
 
@@ -19,16 +22,17 @@ sudo docker run -d --name elastic \
 sudo docker run -d --name kibana \
  -p 5601:5601 \
  --restart=always \
- -e "ELASTICSEARCH_HOSTS=http://localhost:9200" \
+ -e "ELASTICSEARCH_HOSTS=http://elastic:9200" \
  -e XPACK_GRAPH_ENABLED=true \
  -e XPACK_WATCHER_ENABLED=true \
  -e XPACK_ML_ENABLED=true \
  -e XPACK_MONITORING_ENABLED=true \
+ --net=aula \
  -e XPACK_MONITORING_UI_CONTAINER_ELASTICSEARCH_ENABLED \
  docker.elastic.co/kibana/kibana:$VERSAO
 #Subindo logstash
 sudo docker run -d --name logstash \
  --restart=always \
- -e   "XPACK.MONITORING.ELASTICSEARCH.HOSTS=http://localhost:9200" \
+ --net=aula \
+ -e   "XPACK.MONITORING.ELASTICSEARCH.HOSTS=http://elastic:9200" \
  docker.elastic.co/logstash/logstash:$VERSAO
-
