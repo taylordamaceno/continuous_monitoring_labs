@@ -3,7 +3,7 @@ sudo mkdir -p $HOME/docker/elastic/data;
 sudo chmod -R g+rwx $HOME/docker/elastic;
 sudo chown -R 1000:1000 /$HOME/docker/elastic;
 sudo sysctl -w vm.max_map_count=262144;
-export VERSAO=7.13.1;
+VERSAO=7.13.1;
 export VERSAO;
 # Subindo Docker
 
