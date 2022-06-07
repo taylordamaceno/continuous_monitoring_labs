@@ -1,3 +1,21 @@
+No cluster de k8s
+
+Criar os recursos: aguarde um a um ficar ready
+
+kubectl create -f 01-namespace.yaml
+
+kubectl create -f 02-service-elasticsearch.yaml
+
+kubectl create -f 03-elasticstatefullset.yaml
+
+kubectl create -f 04-kibana
+
+Fluentbit start
+
+
+
+
+
 Cria os recursos na ordem em que estão os nomes dos arquivos. Ex:
 $ kubectl create -f 02-fluent-bit-service-account.yaml
 
@@ -13,3 +31,4 @@ Terminal 2:
 $ kubectl delete pod nginx-teste-55d7bb988b-vvz7r -n aula
 
 No browser, clique em "Refresh" e veja os logs aparecerem.
+
