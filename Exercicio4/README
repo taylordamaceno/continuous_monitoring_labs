@@ -35,6 +35,16 @@ https://github.com/taylordamaceno/continuous_monitoring_labs.git
 #entra no diretorio
 cd Exercicio4
 #crie a estrutura 
+#criando namespace
+kubectl create ns aula
+helm repo add grafana https://grafana.github.io/helm-charts
+helm repo update
+helm upgrade --install loki grafana/loki-distributed
+helm upgrade --install loki --namespace=loki grafana/loki-distributed
+#Deploy grafana
+helm install loki-grafana grafana/grafana
+kubectl get secret --namespace aula loki-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+kubectl port-forward --namespace aula service/loki-grafana 3000:80
 
 
 # EM análise!
