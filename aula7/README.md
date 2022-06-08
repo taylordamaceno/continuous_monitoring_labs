@@ -6,7 +6,16 @@ kubectl create -f 01-namespace.yaml
 
 kubectl create -f 02-service-elasticsearch.yaml
 
+
+Se for no kind entre no dir LOCAL_PATH 
+e crie os 2 recursos
+kubectl create -f .
+-----------------------------
+Cluster normal
 kubectl create -f 03-elasticstatefullset.yaml
+
+
+Segue a vida:
 
 kubectl create -f 04-kibana
 
