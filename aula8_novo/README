@@ -1,0 +1,21 @@
+kubectl create ns observability
+
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.8.0/cert-manager.yaml
+
+
+
+
+kubectl create -f https://github.com/jaegertracing/jaeger-operator/releases/download/v1.34.0/jaeger-operator.yaml -n observability # <2>
+
+
+kubectl apply -f - <<EOF
+apiVersion: jaegertracing.io/v1
+kind: Jaeger
+metadata:
+  name: simplest
+EOF
+
+kubectl port-forward $(kubectl get pods -l=app="jaeger" -o name) 16686:16686
+
+
+http://localhost:16686
