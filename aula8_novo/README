@@ -1,3 +1,32 @@
+git clone https://github.com/jaegertracing/jaeger.git
+cd docker-compose/monitor/
+docker-compose up .
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 kubectl create ns observability
 
 kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.8.0/cert-manager.yaml
